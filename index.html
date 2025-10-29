@@ -49,6 +49,23 @@
         .header p {
             font-size: 16px;
             opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .time-estimate {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .time-estimate::before {
+            content: "⏱️";
+            font-size: 16px;
         }
 
         .form-content {
@@ -276,6 +293,7 @@
             <div class="company">GRUPO DIAGONAL</div>
             <h1>📊 Pesquisa: Uso de Inteligência Artificial</h1>
             <p>Mapeamento de ferramentas de IA utilizadas na empresa</p>
+            <div class="time-estimate">Tempo médio: 3-5 minutos</div>
         </div>
 
         <form class="form-content" id="iaForm">
