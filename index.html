@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Uso de IA - Grupo Diagonal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a4d3a 0%, #1a5f4a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0a4d3a 0%, #1a5f4a 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header .company {
+            font-size: 20px;
+            font-weight: 600;
+            color: #66ffaa;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #0a4d3a;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #1a5f4a;
+            box-shadow: 0 0 0 3px rgba(26, 95, 74, 0.1);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #1a5f4a;
+            background: #f0fdf7;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #1a5f4a;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .radio-item:hover {
+            border-color: #1a5f4a;
+            background: #f0fdf7;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #1a5f4a;
+        }
+
+        .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #1a5f4a;
+            box-shadow: 0 0 0 3px rgba(26, 95, 74, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0a4d3a 0%, #1a5f4a 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(26, 95, 74, 0.4);
+            background: linear-gradient(135deg, #1a5f4a 0%, #0a4d3a 100%);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #0a4d3a;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #66ffaa;
+        }
+
+        .success-message {
+            display: none;
+            background: #66ffaa;
+            color: #0a4d3a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            display: none;
+            background: #fee;
+            color: #c33;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #1a5f4a;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1a5f4a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company">GRUPO DIAGONAL</div>
+            <h1>📊 Pesquisa: Uso de Inteligência Artificial</h1>
+            <p>Mapeamento de ferramentas de IA utilizadas na empresa</p>
+        </div>
+
+        <form class="form-content" id="iaForm">
+            <div class="section-title">Informações do Respondente</div>
+            
+            <div class="form-group">
+                <label>Nome <span class="required">*</span></label>
+                <input type="text" name="nome" required>
+            </div>
+
+            <div class="form-group">
+                <label>E-mail Corporativo <span class="required">*</span></label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Cargo/Função <span class="required">*</span></label>
+                <select name="cargo" required>
+                    <option value="">Selecione...</option>
+                    <option value="Diretor">Diretor</option>
+                    <option value="Superintendente">Superintendente</option>
+                    <option value="Gerente">Gerente</option>
+                    <option value="Coordenador">Coordenador</option>
+                    <option value="Analista">Analista</option>
+                    <option value="Assistente">Assistente</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Departamento/Área <span class="required">*</span></label>
+                <input type="text" name="departamento" required>
+            </div>
+
+            <div class="section-title">Ferramentas de IA Utilizadas</div>
+
+            <div class="form-group">
+                <label>Quais ferramentas de IA você utiliza no dia a dia? <span class="required">*</span></label>
+                <p class="info-text">Selecione todas que se aplicam</p>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="chatgpt" name="ia_chatgpt" value="Sim">
+                        <label for="chatgpt">ChatGPT (OpenAI)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="claude" name="ia_claude" value="Sim">
+                        <label for="claude">Claude (Anthropic)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="gemini" name="ia_gemini" value="Sim">
+                        <label for="gemini">Google Gemini</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="copilot" name="ia_copilot" value="Sim">
+                        <label for="copilot">Microsoft Copilot</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="midjourney" name="ia_midjourney" value="Sim">
+                        <label for="midjourney">Midjourney</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dalle" name="ia_dalle" value="Sim">
+                        <label for="dalle">DALL-E</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="notion" name="ia_notion" value="Sim">
+                        <label for="notion">Notion AI</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="jasper" name="ia_jasper" value="Sim">
+                        <label for="jasper">Jasper AI</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="grammarly" name="ia_grammarly" value="Sim">
+                        <label for="grammarly">Grammarly</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="github" name="ia_github_copilot" value="Sim">
+                        <label for="github">GitHub Copilot</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="canva" name="ia_canva" value="Sim">
+                        <label for="canva">Canva AI</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="perplexity" name="ia_perplexity" value="Sim">
+                        <label for="perplexity">Perplexity</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Outras ferramentas de IA</label>
+                <input type="text" name="outras_ias" placeholder="Ex: You.com, Writesonic, etc.">
+            </div>
+
+            <div class="section-title">Tipo de Conta e Pagamento</div>
+
+            <div class="form-group">
+                <label>Tipo de conta utilizada <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="conta_corporativa" name="tipo_conta" value="Corporativa (Empresa)" required>
+                        <label for="conta_corporativa">Corporativa (Empresa)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="conta_pessoal" name="tipo_conta" value="Pessoal" required>
+                        <label for="conta_pessoal">Pessoal</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="conta_ambas" name="tipo_conta" value="Ambas" required>
+                        <label for="conta_ambas">Ambas</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Quem realiza o pagamento? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="pag_corporativo" name="pagamento" value="Empresa (Corporativo)" required>
+                        <label for="pag_corporativo">Empresa (Corporativo)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pag_pessoal" name="pagamento" value="Pessoal (Do meu bolso)" required>
+                        <label for="pag_pessoal">Pessoal (Do meu bolso)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pag_gratuito" name="pagamento" value="Gratuito (Não pago)" required>
+                        <label for="pag_gratuito">Gratuito (Não pago)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pag_misto" name="pagamento" value="Misto" required>
+                        <label for="pag_misto">Misto</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Frequência de uso <span class="required">*</span></label>
+                <select name="frequencia" required>
+                    <option value="">Selecione...</option>
+                    <option value="Diariamente">Diariamente</option>
+                    <option value="Semanalmente (3-5x)">Semanalmente (3-5x)</option>
+                    <option value="Semanalmente (1-2x)">Semanalmente (1-2x)</option>
+                    <option value="Mensalmente">Mensalmente</option>
+                    <option value="Raramente">Raramente</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Para quais atividades você utiliza IA?</label>
+                <p class="info-text">Descreva brevemente as principais aplicações</p>
+                <textarea name="atividades" placeholder="Ex: redação de e-mails, análise de dados, criação de apresentações, programação, pesquisa, etc."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Observações ou comentários adicionais</label>
+                <textarea name="observacoes" placeholder="Compartilhe sugestões, necessidades ou desafios relacionados ao uso de IA na empresa"></textarea>
+            </div>
+
+            <input type="hidden" name="timestamp" id="timestamp">
+
+            <button type="submit" class="btn-submit" id="submitBtn">Enviar Respostas</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Enviando suas respostas...</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                ✅ Respostas enviadas com sucesso! Obrigado pela participação.
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                ❌ Erro ao enviar respostas. Por favor, tente novamente.
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGjZ0u9UIciGfNnEpizfOzdDfKc2aEfkM0ge_HdH1i9Ty8Or8PEtm-hoRRDpq71pGP4Q/exec';
+
+        document.getElementById('iaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Adicionar timestamp
+            document.getElementById('timestamp').value = new Date().toLocaleString('pt-BR');
+            
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Processar todos os campos
+            for (let [key, value] of formData.entries()) {
+                data[key] = value || '';
+            }
+            
+            // Garantir que checkboxes não marcados sejam 'Não'
+            const checkboxes = ['ia_chatgpt', 'ia_claude', 'ia_gemini', 'ia_copilot', 'ia_midjourney', 
+                               'ia_dalle', 'ia_notion', 'ia_jasper', 'ia_grammarly', 'ia_github_copilot', 
+                               'ia_canva', 'ia_perplexity'];
+            
+            checkboxes.forEach(cb => {
+                if (!data[cb]) {
+                    data[cb] = 'Não';
+                }
+            });
+
+            // Mostrar loading
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    }
+                });
+
+                if (response.ok) {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    this.reset();
+                    
+                    // Scroll para a mensagem de sucesso
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error('Erro no envio');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+            } finally {
+                document.getElementById('submitBtn').disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
